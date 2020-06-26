@@ -1,5 +1,5 @@
 sceneSetups:
-- path: D:/denis/Work/how-to-make-a-wheel-of-fortune-in-unity-the-easiest-way-master/Assets/Scenes/Gameplay.unity
+- path: Assets/Scenes/SampleScene.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
