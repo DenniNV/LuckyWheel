@@ -19,9 +19,7 @@ public class WheelView : MonoBehaviour
     {
         _wheel = new Wheel(_numberOfSectors, _probability, _circle);
         _wheel.Init();
-        _twistButton.onClick.RemoveAllListeners();
-        _twistButton.onClick.AddListener(() => _wheel.Twist());
-
+        _wheel.InitButton(_twistButton);
     }
     private void Update()
     {

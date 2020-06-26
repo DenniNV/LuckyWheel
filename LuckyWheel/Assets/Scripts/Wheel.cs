@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Wheel 
 {
@@ -13,7 +14,7 @@ public class Wheel
     private Sector[] _sectors;
     private float[] _probability;
     private GameObject _circle;
-
+    private Button _twistButton;
     public Wheel(int numberOfSectors , float[] probability , GameObject circle)
     {
         _numberOfSectors = numberOfSectors;
@@ -21,6 +22,12 @@ public class Wheel
         _circle = circle;
     }
     
+    public void InitButton(Button twistButton)
+    {
+        _twistButton = twistButton;
+        _twistButton.onClick.RemoveAllListeners();
+        _twistButton.onClick.AddListener(() => Twist());
+    }
     public void Init()
     {
         _sectorSize = 360 / _numberOfSectors;
@@ -30,13 +37,18 @@ public class Wheel
             _sectors[i] = new Sector(i + 1, _sectorSize * i, _probability[i]);
         }
     }
-    public void Twist()
+    private void InteractabelButton(bool state)
+    {
+        _twistButton.interactable = state;
+    }
+    private void Twist()
     {
         _currentLerpRotationTime = 0f;
         int fullCircles = 13;
         float randomFinalAngle = _sectors[CalculationProbabilityWin()].AngelSector;
         _finalAngle = (fullCircles * 360 + randomFinalAngle);
         _isStarted = true;
+        InteractabelButton(false);
     }
     public int CalculationProbabilityWin()
     {
@@ -59,7 +71,7 @@ public class Wheel
         }
         return _sectors.Length - 1;
     }
-    public void GiveAwardByAngle()
+    private void GiveAwardByAngle()
     {
         foreach (Sector sector in _sectors)
         {
@@ -85,6 +97,7 @@ public class Wheel
             _isStarted = false;
             _startAngle = _finalAngle % 360;
             GiveAwardByAngle();
+            InteractabelButton(true);
         }
         float t = _currentLerpRotationTime / maxLerpRotationTime;
         t = t * t * t * (t * (6f * t - 15f) + 10f);
